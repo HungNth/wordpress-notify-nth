@@ -90,9 +90,7 @@ class Plugin {
 		register_activation_hook( NTH_NOTIFY_PATH . 'nth-notifications.php', [ $this, 'activate' ] );
 		
 		// WooCommerce hooks for order notifications.
-		add_action( 'woocommerce_new_order', [ $this, 'handle_new_order' ], 10, 1 );
-		add_action( 'woocommerce_thankyou', [ $this, 'handle_new_order' ], 10, 1 );
-		add_action( 'woocommerce_payment_complete', [ $this, 'handle_payment_complete' ], 10, 1 );
+		add_action( 'woocommerce_order_status_changed', [ $this, 'handle_order_status_changed' ], 10, 4 );
 	}
 	
 	/**
@@ -104,6 +102,7 @@ class Plugin {
 			update_option( 'nth_notifications_settings', [
 				'telegram_enabled' => false,
 				'zalo_enabled'     => false,
+				'enabled_statuses' => [ 'processing', 'completed', 'cancelled', 'failed' ],
 			], 'no' );
 		}
 		
@@ -125,27 +124,40 @@ class Plugin {
 	}
 	
 	/**
-	 * Handle new WooCommerce order
+	 * Handle WooCommerce order status change
 	 *
-	 * @param int $order_id Order ID.
+	 * @param int    $order_id Order ID.
+	 * @param string $old_status Old status.
+	 * @param string $new_status New status.
+	 * @param object $order Order object.
 	 */
-	public function handle_new_order( int $order_id ): void {
-		// Debug logging.
+	public function handle_order_status_changed( int $order_id, string $old_status, string $new_status, $order ): void {
+		// Get enabled statuses from settings
+		$settings = get_option( 'nth_notifications_settings', [] );
+		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [ 'processing', 'completed', 'cancelled', 'failed' ];
+		
+		// Debug logging
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'NTH Notifications - New order hook triggered: ' . $order_id );
+			error_log( sprintf(
+				'NTH Notifications - Order status changed: #%d from %s to %s',
+				$order_id,
+				$old_status,
+				$new_status
+			) );
 		}
 		
-		// Trigger notification action.
+		// Check if new status is in enabled statuses
+		if ( ! in_array( $new_status, $enabled_statuses, true ) ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( sprintf(
+					'NTH Notifications - Status %s is not enabled for notifications',
+					$new_status
+				) );
+			}
+			return;
+		}
+		
+		// Trigger notification action
 		do_action( 'nth_notifications_new_order', $order_id );
-	}
-	
-	/**
-	 * Handle WooCommerce payment complete
-	 *
-	 * @param int $order_id Order ID.
-	 */
-	public function handle_payment_complete( int $order_id ): void {
-		// Prepared for future notification implementation.
-		do_action( 'nth_notifications_payment_complete', $order_id );
 	}
 }

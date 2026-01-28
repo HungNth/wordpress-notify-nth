@@ -88,7 +88,31 @@ class Settings {
 		$sanitized = [
 			'telegram_enabled' => ! empty( $input['telegram_enabled'] ),
 			'zalo_enabled'     => ! empty( $input['zalo_enabled'] ),
+			'enabled_statuses' => [],
 		];
+		
+		// Sanitize enabled statuses
+		if ( isset( $input['enabled_statuses'] ) && is_array( $input['enabled_statuses'] ) ) {
+			$valid_statuses = [
+				'pending',
+				'processing',
+				'on-hold',
+				'completed',
+				'cancelled',
+				'refunded',
+				'failed',
+				'draft',
+			];
+			
+			$sanitized['enabled_statuses'] = array_values(
+				array_intersect( $input['enabled_statuses'], $valid_statuses )
+			);
+		}
+		
+		// Set default statuses if empty
+		if ( empty( $sanitized['enabled_statuses'] ) ) {
+			$sanitized['enabled_statuses'] = [ 'processing', 'completed', 'cancelled', 'failed' ];
+		}
 		
 		return $sanitized;
 	}
@@ -233,10 +257,24 @@ class Settings {
 		$settings = get_option( $this->general_option, [
 			'telegram_enabled' => false,
 			'zalo_enabled'     => false,
+			'enabled_statuses' => [ 'processing', 'completed', 'cancelled', 'failed' ],
 		] );
 		
 		$telegram_enabled = isset( $settings['telegram_enabled'] ) && $settings['telegram_enabled'];
 		$zalo_enabled     = isset( $settings['zalo_enabled'] ) && $settings['zalo_enabled'];
+		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [ 'processing', 'completed', 'cancelled', 'failed' ];
+		
+		// Available order statuses
+		$order_statuses = [
+			'pending'    => __( 'Pending Payment', 'nth-notifications' ),
+			'processing' => __( 'Processing', 'nth-notifications' ),
+			'on-hold'    => __( 'On Hold', 'nth-notifications' ),
+			'completed'  => __( 'Completed', 'nth-notifications' ),
+			'cancelled'  => __( 'Cancelled', 'nth-notifications' ),
+			'refunded'   => __( 'Refunded', 'nth-notifications' ),
+			'failed'     => __( 'Failed', 'nth-notifications' ),
+			'draft'      => __( 'Draft', 'nth-notifications' ),
+		];
 		?>
 		<table class="form-table">
 			<tr>
@@ -267,6 +305,30 @@ class Settings {
 							<?php checked( $zalo_enabled, true ); ?> />
 						<?php esc_html_e( 'Enable Zalo notifications', 'nth-notifications' ); ?>
 					</label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php esc_html_e( 'Order Statuses', 'nth-notifications' ); ?>
+				</th>
+				<td>
+					<fieldset>
+						<legend class="screen-reader-text">
+							<span><?php esc_html_e( 'Select order statuses to send notifications', 'nth-notifications' ); ?></span>
+						</legend>
+						<p class="description" style="margin-top: 0; margin-bottom: 10px;">
+							<?php esc_html_e( 'Select which order statuses should trigger notifications:', 'nth-notifications' ); ?>
+						</p>
+						<?php foreach ( $order_statuses as $status_key => $status_label ) : ?>
+							<label style="display: block; margin-bottom: 5px;">
+								<input type="checkbox"
+									   name="<?php echo esc_attr( $this->general_option ); ?>[enabled_statuses][]"
+									   value="<?php echo esc_attr( $status_key ); ?>"
+									<?php checked( in_array( $status_key, $enabled_statuses, true ), true ); ?> />
+								<?php echo esc_html( $status_label ); ?>
+							</label>
+						<?php endforeach; ?>
+					</fieldset>
 				</td>
 			</tr>
 		</table>

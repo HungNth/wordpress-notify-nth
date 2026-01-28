@@ -1,0 +1,69 @@
+/**
+ * NTH Notifications Admin Styles
+ *
+ * @package NTH\Notifications
+ */
+
+/* Chat ID Rows */
+.nth-notify__chat-ids {
+	margin-bottom: 10px;
+}
+
+.nth-notify__chat-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.nth-notify__chat-row label {
+	min-width: 100px;
+	margin: 0;
+	font-weight: 600;
+}
+
+.nth-notify__chat-row input[type="text"] {
+	flex: 1;
+	max-width: 300px;
+}
+
+.nth-notify__test-chat-id,
+.nth-notify__remove-chat-id {
+	flex-shrink: 0;
+}
+
+/* Test Result */
+.nth-notify__test-result {
+	margin-left: 10px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* Token Toggle */
+.nth-notify__toggle-token {
+	margin-left: 5px;
+}
+
+/* Token Mask Display */
+.nth-notify__token-mask {
+	font-family: monospace;
+	background: #f0f0f1;
+	padding: 2px 6px;
+	border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+	.nth-notify__chat-row {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.nth-notify__chat-row label {
+		min-width: auto;
+	}
+
+	.nth-notify__chat-row input[type="text"] {
+		width: 100%;
+	}
+}

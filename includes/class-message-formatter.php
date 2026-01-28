@@ -36,6 +36,28 @@ class Message_Formatter {
 	}
 
 	/**
+	 * Get header based on order status
+	 *
+	 * @param string $status Order status (without 'wc-' prefix).
+	 *
+	 * @return string Header with icon and text.
+	 */
+	private function get_status_header( string $status ): string {
+		$headers = [
+			'pending'    => '🕐 ' . __( 'ORDER PENDING', 'nth-notifications' ),
+			'processing' => '🛒 ' . __( 'NEW ORDER', 'nth-notifications' ),
+			'on-hold'    => '⏸️ ' . __( 'ORDER ON HOLD', 'nth-notifications' ),
+			'completed'  => '✅ ' . __( 'ORDER COMPLETED', 'nth-notifications' ),
+			'cancelled'  => '❌ ' . __( 'ORDER CANCELLED', 'nth-notifications' ),
+			'refunded'   => '💸 ' . __( 'ORDER REFUNDED', 'nth-notifications' ),
+			'failed'     => '⚠️ ' . __( 'ORDER FAILED', 'nth-notifications' ),
+			'draft'      => '📝 ' . __( 'ORDER DRAFT', 'nth-notifications' ),
+		];
+
+		return isset( $headers[ $status ] ) ? $headers[ $status ] : '🛒 ' . __( 'ORDER UPDATE', 'nth-notifications' );
+	}
+
+	/**
 	 * Build new order message
 	 *
 	 * @param \WC_Order $order Order object.
@@ -43,7 +65,10 @@ class Message_Formatter {
 	 * @return string
 	 */
 	public function build_new_order_message( \WC_Order $order ): string {
-		$message = $this->format_header( '🛒 ' . __( 'NEW ORDER', 'nth-notifications' ) );
+		// Get dynamic header based on order status
+		$header = $this->get_status_header( $order->get_status() );
+		
+		$message = $this->format_header( $header );
 		$message .= "\n";
 		$message .= $this->format_line( '🌐', __( 'Website: ', 'nth-notifications' ), get_site_url() );
 		$message .= "\n\n";

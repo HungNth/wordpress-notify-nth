@@ -1,2 +1,9 @@
 zalo-bot-notification
 prompts
+.vscode
+.DS_Store
+node_modules
+dist
+.env
+*.log
+.idea

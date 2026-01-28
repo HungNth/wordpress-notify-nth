@@ -111,7 +111,7 @@ class Settings {
 		
 		// Set default statuses if empty
 		if ( empty( $sanitized['enabled_statuses'] ) ) {
-			$sanitized['enabled_statuses'] = [ 'processing', 'completed', 'cancelled', 'failed' ];
+			$sanitized['enabled_statuses'] = [ 'processing', 'cancelled', 'failed' ];
 		}
 		
 		return $sanitized;
@@ -257,12 +257,12 @@ class Settings {
 		$settings = get_option( $this->general_option, [
 			'telegram_enabled' => false,
 			'zalo_enabled'     => false,
-			'enabled_statuses' => [ 'processing', 'completed', 'cancelled', 'failed' ],
+			'enabled_statuses' => [ 'processing', 'cancelled', 'failed' ],
 		] );
 		
 		$telegram_enabled = isset( $settings['telegram_enabled'] ) && $settings['telegram_enabled'];
 		$zalo_enabled     = isset( $settings['zalo_enabled'] ) && $settings['zalo_enabled'];
-		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [ 'processing', 'completed', 'cancelled', 'failed' ];
+		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [ 'processing', 'cancelled', 'failed' ];
 		
 		// Available order statuses
 		$order_statuses = [

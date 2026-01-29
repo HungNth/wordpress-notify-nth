@@ -86,8 +86,8 @@ class Plugin {
 	 * Initialize hooks
 	 */
 	private function init_hooks(): void {
-		// Register activation hook.
 		register_activation_hook( NTH_NOTIFY_PATH . 'nth-notify.php', [ $this, 'activate' ] );
+		add_filter( 'plugin_action_links_' . NTH_NOTIFY_BASENAME, [ $this, 'add_settings_link' ] );
 		
 		// WooCommerce hooks for order notifications.
 		add_action( 'woocommerce_order_status_changed', [ $this, 'handle_order_status_changed' ], 10, 4 );
@@ -121,6 +121,25 @@ class Plugin {
 				'chat_ids'  => [],
 			], 'no' );
 		}
+	}
+	
+	/**
+	 * Add settings link to plugin actions
+	 *
+	 * @param $links
+	 *
+	 * @return mixed
+	 */
+	public function add_settings_link( $links ): mixed {
+		$settings_url = admin_url( 'options-general.php?page=nth-notify' );
+		
+		// Create the anchor tag for the link
+		$settings_link = '<a href="' . esc_url( $settings_url ) . '">' . __( 'Settings', 'nth-notify' ) . '</a>';
+		
+		// Add the link to the beginning of the links array
+		array_unshift( $links, $settings_link );
+		
+		return $links;
 	}
 	
 	/**

@@ -1,0 +1,430 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: NTH Notify\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-29 08:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.1; wp-6.9; php-8.4.16\n"
+"X-Domain: nth-notify"
+
+#. %s: channel name
+#: includes/class-abstract-notification-channel.php:129
+#, php-format
+msgid "%s is not properly configured."
+msgstr ""
+
+#. %s: channel name
+#: includes/class-abstract-notification-channel.php:236
+#, php-format
+msgid "%s notification sent successfully."
+msgstr ""
+
+#: includes/class-settings.php:434 includes/class-settings.php:542
+msgid "+ Add Chat ID"
+msgstr ""
+
+#: includes/class-settings.php:437
+msgid ""
+"Add Telegram Chat IDs where notifications will be sent. You can use Channel "
+"IDs, Group IDs, or User IDs."
+msgstr ""
+
+#: includes/class-admin.php:104
+msgid "At least one Chat ID is required."
+msgstr ""
+
+#: includes/class-message-formatter.php:92
+msgid "Billing Address:"
+msgstr ""
+
+#: includes/class-settings.php:399 includes/class-settings.php:487
+msgid "Bot Token"
+msgstr ""
+
+#: includes/class-admin.php:134 includes/class-admin.php:185
+msgid "Bot token and Chat ID are required."
+msgstr ""
+
+#: includes/class-admin.php:239 includes/class-zalo.php:120
+#: includes/class-zalo.php:173
+msgid "Bot token is required."
+msgstr ""
+
+#: includes/class-settings.php:291
+msgid "Cancelled"
+msgstr ""
+
+#. %d: chat ID number
+#: includes/class-settings.php:566 includes/class-settings.php:600
+msgid "Chat ID #%d"
+msgstr ""
+
+#: includes/class-admin.php:258
+msgid "Chat ID found successfully!."
+msgstr ""
+
+#: includes/class-settings.php:423 includes/class-settings.php:512
+msgid "Chat IDs"
+msgstr ""
+
+#: includes/class-settings.php:521
+msgid "Click the button below to start the process of finding your Chat ID"
+msgstr ""
+
+#: includes/class-settings.php:290
+msgid "Completed"
+msgstr ""
+
+#: includes/class-admin.php:271
+msgid "Configuration is working correctly!"
+msgstr ""
+
+#: includes/class-admin.php:103
+msgid "Connection error"
+msgstr ""
+
+#: includes/class-zalo.php:306
+msgid "Could not find Chat ID in the response data. Please try again."
+msgstr ""
+
+#: includes/class-message-formatter.php:79
+msgid "Customer:"
+msgstr ""
+
+#: includes/class-message-formatter.php:127
+msgid "Date:"
+msgstr ""
+
+#: includes/class-settings.php:294
+msgid "Draft"
+msgstr ""
+
+#: includes/class-message-formatter.php:81
+msgid "Email:"
+msgstr ""
+
+#: includes/class-settings.php:300
+msgid "Enable Telegram"
+msgstr ""
+
+#: includes/class-settings.php:309
+msgid "Enable Telegram notifications"
+msgstr ""
+
+#: includes/class-settings.php:315
+msgid "Enable Zalo"
+msgstr ""
+
+#: includes/class-settings.php:324
+msgid "Enable Zalo notifications"
+msgstr ""
+
+#. Description of the plugin
+msgid "Enhance your WordPress site with powerful notification capabilities."
+msgstr ""
+
+#: includes/class-settings.php:607
+msgid "Enter Telegram Chat ID"
+msgstr ""
+
+#. %s: help URL
+#: includes/class-settings.php:414
+#, php-format
+msgid "Enter your Telegram Bot Token. %s"
+msgstr ""
+
+#. %s: help URL
+#: includes/class-settings.php:502
+#, php-format
+msgid "Enter your Zalo Bot Token. %s"
+msgstr ""
+
+#: includes/class-settings.php:573
+msgid "Enter Zalo Chat ID"
+msgstr ""
+
+#: includes/class-settings.php:293
+msgid "Failed"
+msgstr ""
+
+#. 1: channel name, 2: error message
+#: includes/class-abstract-notification-channel.php:251
+#, php-format
+msgid "Failed to send %1$s notification: %2$s"
+msgstr ""
+
+#: includes/class-settings.php:249 includes/class-settings.php:374
+#: includes/class-settings.php:462
+msgid "General"
+msgstr ""
+
+#: includes/class-admin.php:96
+msgid "Hide"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://wptop.net/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Hung Nth"
+msgstr ""
+
+#: includes/class-message-formatter.php:111
+msgid "Items:"
+msgstr ""
+
+#: includes/class-settings.php:415 includes/class-settings.php:503
+msgid "Learn more"
+msgstr ""
+
+#: includes/class-message-formatter.php:48
+msgid "NEW ORDER"
+msgstr ""
+
+#: includes/class-zalo.php:239
+msgid "No messages found. Please try again."
+msgstr ""
+
+#. Name of the plugin
+#: includes/class-admin.php:51 includes/class-admin.php:52
+msgid "NTH Notify"
+msgstr ""
+
+#: includes/class-settings.php:289
+msgid "On Hold"
+msgstr ""
+
+#: includes/class-settings.php:523
+msgid "Open Zalo app and search for your bot"
+msgstr ""
+
+#: includes/class-message-formatter.php:51
+msgid "ORDER CANCELLED"
+msgstr ""
+
+#: includes/class-message-formatter.php:50
+msgid "ORDER COMPLETED"
+msgstr ""
+
+#: includes/class-message-formatter.php:54
+msgid "ORDER DRAFT"
+msgstr ""
+
+#: includes/class-message-formatter.php:53
+msgid "ORDER FAILED"
+msgstr ""
+
+#: includes/class-message-formatter.php:77
+msgid "Order ID:"
+msgstr ""
+
+#: includes/class-message-formatter.php:49
+msgid "ORDER ON HOLD"
+msgstr ""
+
+#: includes/class-message-formatter.php:47
+msgid "ORDER PENDING"
+msgstr ""
+
+#: includes/class-message-formatter.php:52
+msgid "ORDER REFUNDED"
+msgstr ""
+
+#: includes/class-settings.php:330
+msgid "Order Statuses"
+msgstr ""
+
+#: includes/class-message-formatter.php:57
+msgid "ORDER UPDATE"
+msgstr ""
+
+#: includes/class-message-formatter.php:101
+msgid "Payment Method:"
+msgstr ""
+
+#: includes/class-settings.php:287
+msgid "Pending Payment"
+msgstr ""
+
+#: includes/class-admin.php:127 includes/class-admin.php:178
+#: includes/class-admin.php:233
+msgid "Permission denied."
+msgstr ""
+
+#: includes/class-message-formatter.php:82
+msgid "Phone:"
+msgstr ""
+
+#: includes/class-admin.php:102
+msgid "Please enter Bot Token first"
+msgstr ""
+
+#: includes/class-admin.php:101
+msgid "Please enter Chat ID"
+msgstr ""
+
+#: includes/class-settings.php:288
+msgid "Processing"
+msgstr ""
+
+#: includes/class-settings.php:292
+msgid "Refunded"
+msgstr ""
+
+#: includes/class-admin.php:98 includes/class-settings.php:580
+#: includes/class-settings.php:615
+msgid "Remove"
+msgstr ""
+
+#: includes/class-settings.php:335
+msgid "Select order statuses to send notifications"
+msgstr ""
+
+#: includes/class-settings.php:339
+msgid "Select which order statuses should trigger notifications:"
+msgstr ""
+
+#: includes/class-settings.php:525
+msgid "Send any message to the bot (e.g., \"Hello\")"
+msgstr ""
+
+#: includes/class-admin.php:100
+msgid "Sending test message..."
+msgstr ""
+
+#: includes/class-plugin.php:137
+msgid "Settings"
+msgstr ""
+
+#: includes/class-message-formatter.php:89
+msgid "Shipping Address:"
+msgstr ""
+
+#: includes/class-admin.php:95 includes/class-settings.php:408
+#: includes/class-settings.php:496
+msgid "Show"
+msgstr ""
+
+#: includes/class-message-formatter.php:104
+msgid "Status:"
+msgstr ""
+
+#: includes/class-settings.php:250
+msgid "Telegram"
+msgstr ""
+
+#. %s: link to General tab
+#: includes/class-settings.php:373
+#, php-format
+msgid "Telegram is not enabled. Please enable it in the %s tab."
+msgstr ""
+
+#: includes/class-admin.php:97 includes/class-settings.php:576
+#: includes/class-settings.php:611
+msgid "Test"
+msgstr ""
+
+#: includes/class-admin.php:269
+msgid "Test message from NTH Notify"
+msgstr ""
+
+#: includes/class-admin.php:161 includes/class-admin.php:216
+msgid "Test message sent successfully!"
+msgstr ""
+
+#: includes/class-admin.php:99
+msgid "Testing..."
+msgstr ""
+
+#: includes/class-admin.php:108
+msgid "This ID already exists in your list!"
+msgstr ""
+
+#: includes/class-message-formatter.php:98
+msgid "Total:"
+msgstr ""
+
+#: includes/class-zalo.php:261
+msgid "Unknown data structure."
+msgstr ""
+
+#: includes/class-abstract-notification-channel.php:245
+#: includes/class-admin.php:163 includes/class-admin.php:218
+#: includes/class-telegram.php:108 includes/class-zalo.php:103
+#: includes/class-zalo.php:159 includes/class-zalo.php:208
+msgid "Unknown error"
+msgstr ""
+
+#: includes/class-message-formatter.php:122
+msgid "View Order in Admin"
+msgstr ""
+
+#: includes/class-zalo.php:202
+msgid "Webhook deleted successfully."
+msgstr ""
+
+#: includes/class-admin.php:270 includes/class-message-formatter.php:73
+msgid "Website: "
+msgstr ""
+
+#: includes/class-settings.php:545
+msgid ""
+"You can add multiple Chat IDs to send notifications to different users or "
+"groups."
+msgstr ""
+
+#: includes/class-settings.php:205
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/class-settings.php:251
+msgid "Zalo"
+msgstr ""
+
+#. %s: link to General tab
+#: includes/class-settings.php:461
+#, php-format
+msgid "Zalo is not enabled. Please enable it in the %s tab."
+msgstr ""
+
+#: includes/class-admin.php:105
+msgid "⏳ Waiting for message..."
+msgstr ""
+
+#: includes/class-admin.php:112
+msgid "⚠️ Error:"
+msgstr ""
+
+#: includes/class-admin.php:110
+msgid ""
+"⚠️ No message found! Please: 1. Click \"Find Chat ID\" button again 2. Open "
+"Zalo app on your phone 3. Search for your bot 4. Send any message (e.g., "
+"\"Hello\") to the bot."
+msgstr ""
+
+#: includes/class-admin.php:109
+msgid "✅ Chat ID found and added:"
+msgstr ""
+
+#: includes/class-admin.php:107
+msgid "✅ Chat ID found:"
+msgstr ""
+
+#: includes/class-settings.php:518
+msgid "📱 How to get your Chat ID:"
+msgstr ""
+
+#: includes/class-admin.php:106 includes/class-settings.php:530
+msgid "🔎 Find Chat ID"
+msgstr ""

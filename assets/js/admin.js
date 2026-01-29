@@ -92,7 +92,7 @@
 						${nthNotifications.i18n.test}
 					</button>
 					<button type="button" 
-							class="button button-secondary nth-notify__remove-chat-id">
+							class="button button-link-delete nth-notify__remove-chat-id">
 						${nthNotifications.i18n.remove}
 					</button>
 					<span class="nth-notify__test-result"></span>
@@ -128,7 +128,7 @@
 						${nthNotifications.i18n.test}
 					</button>
 					<button type="button" 
-							class="button button-secondary nth-notify__remove-chat-id">
+							class="button button-link-delete nth-notify__remove-chat-id">
 						${nthNotifications.i18n.remove}
 					</button>
 					<span class="nth-notify__test-result"></span>

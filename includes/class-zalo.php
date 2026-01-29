@@ -117,7 +117,7 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( empty( $this->bot_token ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Bot Token is required.', 'nth-notify' ),
+				'message' => __( 'Bot token is required.', 'nth-notify' ),
 			];
 		}
 		
@@ -170,7 +170,7 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( empty( $this->bot_token ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Bot Token is required.', 'nth-notify' ),
+				'message' => __( 'Bot token is required.', 'nth-notify' ),
 			];
 		}
 		
@@ -236,7 +236,7 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( empty( $updates ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'No messages found. Please send a message to the bot on Zalo (e.g., "Hello") and try again.',
+				'message' => __( 'No messages found. Please try again.',
 					'nth-notify' ),
 			];
 		}

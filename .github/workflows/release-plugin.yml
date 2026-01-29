@@ -1,0 +1,182 @@
+name: Release WordPress Plugin
+
+on:
+    workflow_dispatch:
+        inputs:
+            confirm:
+                description: 'Confirm release creation (type "yes")'
+                required: true
+                default: 'no'
+
+jobs:
+    release:
+        name: Create Plugin Release
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Validate confirmation
+              if: github.event.inputs.confirm != 'yes'
+              run: |
+                  echo "❌ Release creation was not confirmed. Please type 'yes' to proceed."
+                  exit 1
+
+            - name: Extract version from plugin file
+              id: extract_version
+              run: |
+                  VERSION=$(grep -oP "(?<=\* Version: )[\d\.]+" nth-notify.php | head -1)
+                  if [ -z "$VERSION" ]; then
+                    echo "❌ Could not extract version from nth-notify.php"
+                    exit 1
+                  fi
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "✅ Extracted version: $VERSION"
+
+            - name: Check if release already exists
+              id: check_release
+              run: |
+                  VERSION=${{ steps.extract_version.outputs.version }}
+                  if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+                    echo "❌ Release v$VERSION already exists!"
+                    exit 1
+                  fi
+                  echo "✅ Version v$VERSION is new"
+
+            - name: Extract changelog for current version
+              id: extract_changelog
+              run: |
+                  VERSION=${{ steps.extract_version.outputs.version }}
+                  CHANGELOG_FILE="changelog.txt"
+
+                  if [ ! -f "$CHANGELOG_FILE" ]; then
+                    echo "⚠️ No changelog.txt found, release will be created without description"
+                    echo "changelog=" >> $GITHUB_OUTPUT
+                    exit 0
+                  fi
+
+                  # Extract changelog section for current version
+                  # Look for pattern like "= 1.1.0 =" or "## 1.1.0" or "# Version 1.1.0"
+                  CHANGELOG=$(awk -v ver="$VERSION" '
+                    /^(=+ )?[Vv]?'"$VERSION"'( =+)?$/ || /^#+.*'"$VERSION"'/ {flag=1; next}
+                    /^(=+ )?[Vv]?[0-9]+\.[0-9]+\.[0-9]+( =+)?$/ || /^#+.*[0-9]+\.[0-9]+\.[0-9]+/ {flag=0}
+                    flag && NF {print}
+                  ' "$CHANGELOG_FILE" | sed '/^$/d')
+
+                  if [ -z "$CHANGELOG" ]; then
+                    echo "⚠️ No changelog found for version $VERSION"
+                    echo "changelog=" >> $GITHUB_OUTPUT
+                  else
+                    echo "✅ Changelog extracted for version $VERSION"
+                    # Use multiline output format
+                    {
+                      echo "changelog<<EOF"
+                      echo "$CHANGELOG"
+                      echo "EOF"
+                    } >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Prepare plugin directory
+              id: prepare_plugin
+              run: |
+                  PLUGIN_SLUG="nth-notify"
+                  BUILD_DIR="build"
+                  PLUGIN_DIR="$BUILD_DIR/$PLUGIN_SLUG"
+
+                  echo "🔨 Creating build directory structure..."
+                  mkdir -p "$PLUGIN_DIR"
+
+                  # Copy all files except excluded ones
+                  echo "📦 Copying plugin files..."
+                  rsync -av \
+                    --exclude='.github' \
+                    --exclude='.git' \
+                    --exclude='.agent' \
+                    --exclude='.gitignore' \
+                    --exclude='build' \
+                    --exclude='node_modules' \
+                    --exclude='.vscode' \
+                    --exclude='.idea' \
+                    --exclude='*.log' \
+                    --exclude='.DS_Store' \
+                    --exclude='Thumbs.db' \
+                    ./ "$PLUGIN_DIR/"
+
+                  echo "plugin_dir=$PLUGIN_DIR" >> $GITHUB_OUTPUT
+                  echo "build_dir=$BUILD_DIR" >> $GITHUB_OUTPUT
+                  echo "plugin_slug=$PLUGIN_SLUG" >> $GITHUB_OUTPUT
+                  echo "✅ Plugin directory prepared"
+
+            - name: Create plugin ZIP archive
+              id: create_zip
+              run: |
+                  PLUGIN_SLUG=${{ steps.prepare_plugin.outputs.plugin_slug }}
+                  BUILD_DIR=${{ steps.prepare_plugin.outputs.build_dir }}
+                  VERSION=${{ steps.extract_version.outputs.version }}
+                  ZIP_NAME="${PLUGIN_SLUG}.zip"
+
+                  echo "📦 Creating ZIP archive..."
+                  cd "$BUILD_DIR"
+                  zip -r "../$ZIP_NAME" "$PLUGIN_SLUG" -q
+                  cd ..
+
+                  if [ ! -f "$ZIP_NAME" ]; then
+                    echo "❌ Failed to create ZIP file"
+                    exit 1
+                  fi
+
+                  ZIP_SIZE=$(du -h "$ZIP_NAME" | cut -f1)
+                  echo "✅ ZIP created: $ZIP_NAME (${ZIP_SIZE})"
+
+                  echo "zip_file=$ZIP_NAME" >> $GITHUB_OUTPUT
+                  echo "zip_path=$(pwd)/$ZIP_NAME" >> $GITHUB_OUTPUT
+
+            - name: Create GitHub Release
+              id: create_release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ steps.extract_version.outputs.version }}
+                  name: Release ${{ steps.extract_version.outputs.version }}
+                  body: |
+                      ## 🚀 Release ${{ steps.extract_version.outputs.version }}
+
+                      ${{ steps.extract_changelog.outputs.changelog }}
+
+                      ---
+
+                      ### 📥 Installation
+
+                      1. Download `nth-notify.zip` from the Assets section below
+                      2. Go to WordPress Admin → Plugins → Add New → Upload Plugin
+                      3. Choose the downloaded ZIP file and click "Install Now"
+                      4. Activate the plugin
+
+                      ### 🔧 Requirements
+
+                      - WordPress 5.8 or higher
+                      - PHP 7.4 or higher
+                      - WooCommerce (if using order notifications)
+
+                      ### 📝 Changelog
+
+                      For full changelog, see [changelog.txt](https://github.com/${{ github.repository }}/blob/main/changelog.txt)
+                  draft: false
+                  prerelease: false
+                  files: ${{ steps.create_zip.outputs.zip_file }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Release Summary
+              run: |
+                  echo "🎉 Release created successfully!"
+                  echo ""
+                  echo "📌 Version: ${{ steps.extract_version.outputs.version }}"
+                  echo "🏷️ Tag: v${{ steps.extract_version.outputs.version }}"
+                  echo "📦 ZIP: ${{ steps.create_zip.outputs.zip_file }}"
+                  echo "🔗 URL: ${{ steps.create_release.outputs.upload_url }}"
+                  echo ""
+                  echo "✅ Release is now available at:"
+                  echo "   https://github.com/${{ github.repository }}/releases/tag/v${{ steps.extract_version.outputs.version }}"

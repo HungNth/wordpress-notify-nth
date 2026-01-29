@@ -208,7 +208,7 @@ class Settings {
 		// Get current tab.
 		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
 		?>
-		<div class="wrap">
+		<div id="nth-notify-settings-page" class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			
 			<?php $this->render_tabs( $current_tab ); ?>

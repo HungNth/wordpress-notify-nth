@@ -3,7 +3,7 @@
  * Plugin Name: NTH Notify
  * Plugin URI: https://wptop.net/
  * Description: Enhance your WordPress site with powerful notification capabilities.
- * Version: 1.1.0
+ * Version: 1.0.0
  * Author: Hung Nth
  * Author URI: https://wptop.net/
  * Text Domain: nth-notify
@@ -27,7 +27,7 @@ define( 'NTH_NOTIFY_IS_PRODUCTION', true );
 if ( ! NTH_NOTIFY_IS_PRODUCTION ) {
 	$version = time();
 } else {
-	$version = '1.1.0';
+	$version = '1.0.0';
 }
 
 define( 'NTH_NOTIFY_VERSION', $version );

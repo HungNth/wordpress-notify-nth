@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to NTH Notify will be documented in this file.
+
+## 1.1.0
+
+**Release Date:** January 29, 2026
+
+### Added
+- Order status selection feature (pending, processing, on-hold, completed, cancelled, refunded, failed, draft)
+- Dynamic message headers based on order status with emoji indicators
+- Multiple Chat IDs support for both Telegram and Zalo
+- "Find Chat ID" feature for Zalo integration
+- Test notification buttons for Telegram and Zalo
+- Tailwind CSS integration for modern admin UI
+- Enhanced debug logging throughout the plugin
+
+### Changed
+- Refactored to OOP architecture with Abstract_Notification_Channel base class
+- Unified message format between Telegram and Zalo channels
+- Improved currency display (fixed HTML entities issue)
+- Refactored jQuery to vanilla JavaScript
+- Enhanced settings sanitization to properly handle multiple chat IDs
+- Updated text domain from nth-notifications to nth-notify
+
+### Fixed
+- Chat ID #2+ not being saved due to JavaScript naming inconsistency
+- Option name inconsistency after plugin rename
+- Settings group names mismatch
+- Switch statement structure in settings render method
+- Form data handling for dynamically added chat ID fields
+
+### Technical
+- Namespace: NTH\Notifications
+- Main plugin file renamed: nth-notify.php
+- Database options: nth_notify_settings, nth_notify_telegram, nth_notify_zalo
+- Minimum requirements: WordPress 5.8+, PHP 7.4+
+
+## 1.0.0
+
+**Release Date:** January 27, 2026
+
+### Initial Release
+- Basic Telegram notification support
+- Basic Zalo notification support
+- WooCommerce order notifications
+- Admin settings page
+- Translation ready (i18n)

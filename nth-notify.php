@@ -22,7 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants.
-define( 'NTH_NOTIFY_VERSION', '1.1.0' );
+define( 'NTH_NOTIFY_IS_PRODUCTION', true );
+
+if ( ! NTH_NOTIFY_IS_PRODUCTION ) {
+	$assets_version = time();
+} else {
+	$assets_version = '1.1.0';
+}
+
+define( 'NTH_NOTIFY_VERSION', $assets_version );
 define( 'NTH_NOTIFY_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NTH_NOTIFY_URL', plugin_dir_url( __FILE__ ) );
 define( 'NTH_NOTIFY_BASENAME', plugin_basename( __FILE__ ) );

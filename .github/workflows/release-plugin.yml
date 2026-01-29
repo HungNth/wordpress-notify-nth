@@ -169,7 +169,7 @@ jobs:
                   prerelease: false
                   files: ${{ steps.create_zip.outputs.zip_file }}
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
             - name: Release Summary
               run: |

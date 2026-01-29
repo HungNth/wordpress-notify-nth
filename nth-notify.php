@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: NTH Notifications
+ * Plugin Name: NTH Notify
  * Plugin URI: https://wptop.net/
- * Description: Advanced notification system for WooCommerce
+ * Description: Enhance your WordPress site with powerful notification capabilities.
  * Version: 1.1.0
  * Author: Hung Nth
  * Author URI: https://wptop.net/
- * Text Domain: nth-notifications
+ * Text Domain: nth-notify
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
@@ -31,7 +31,7 @@ define( 'NTH_NOTIFY_URL', plugin_dir_url( __FILE__ ) );
  */
 function load_textdomain() {
 	load_plugin_textdomain(
-		'nth-notifications',
+		'nth-notify',
 		false,
 		dirname( plugin_basename( __FILE__ ) ) . '/languages'
 	);

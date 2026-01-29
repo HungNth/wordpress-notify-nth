@@ -105,7 +105,7 @@ class Telegram extends Abstract_Notification_Channel {
 		return [
 			'success' => false,
 			'chat_id' => $chat_id,
-			'error'   => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notifications' ),
+			'error'   => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notify' ),
 		];
 	}
 }

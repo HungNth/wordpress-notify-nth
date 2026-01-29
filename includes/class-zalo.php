@@ -100,7 +100,7 @@ class Zalo extends Abstract_Notification_Channel {
 		return [
 			'success' => false,
 			'chat_id' => $chat_id,
-			'error'   => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notifications' ),
+			'error'   => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notify' ),
 		];
 	}
 	
@@ -117,7 +117,7 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( empty( $this->bot_token ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Bot Token is required.', 'nth-notifications' ),
+				'message' => __( 'Bot Token is required.', 'nth-notify' ),
 			];
 		}
 		
@@ -156,7 +156,8 @@ class Zalo extends Abstract_Notification_Channel {
 		
 		return [
 			'success' => false,
-			'message' => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notifications' ),
+			'message' => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error',
+				'nth-notify' ),
 		];
 	}
 	
@@ -169,7 +170,7 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( empty( $this->bot_token ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'Bot Token is required.', 'nth-notifications' ),
+				'message' => __( 'Bot Token is required.', 'nth-notify' ),
 			];
 		}
 		
@@ -198,13 +199,14 @@ class Zalo extends Abstract_Notification_Channel {
 		if ( isset( $result['ok'] ) && $result['ok'] ) {
 			return [
 				'success' => true,
-				'message' => __( 'Webhook deleted successfully.', 'nth-notifications' ),
+				'message' => __( 'Webhook deleted successfully.', 'nth-notify' ),
 			];
 		}
 		
 		return [
 			'success' => false,
-			'message' => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error', 'nth-notifications' ),
+			'message' => isset( $result['description'] ) ? $result['description'] : __( 'Unknown error',
+				'nth-notify' ),
 		];
 	}
 	
@@ -228,13 +230,14 @@ class Zalo extends Abstract_Notification_Channel {
 		
 		// Debug logging.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'NTH Notifications - Zalo getUpdates response: ' . print_r( $updates, true ) );
+			error_log( 'NTH Notify - Zalo getUpdates response: ' . print_r( $updates, true ) );
 		}
 		
 		if ( empty( $updates ) ) {
 			return [
 				'success' => false,
-				'message' => __( 'No messages found. Please send a message to the bot on Zalo (e.g., "Hello") and try again.', 'nth-notifications' ),
+				'message' => __( 'No messages found. Please send a message to the bot on Zalo (e.g., "Hello") and try again.',
+					'nth-notify' ),
 			];
 		}
 		
@@ -250,12 +253,12 @@ class Zalo extends Abstract_Notification_Channel {
 		} else {
 			// Debug: log unknown structure.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'NTH Notifications - Unknown data structure: ' . print_r( $updates, true ) );
+				error_log( 'NTH Notify - Unknown data structure: ' . print_r( $updates, true ) );
 			}
 			
 			return [
 				'success' => false,
-				'message' => __( 'Unknown data structure.', 'nth-notifications' ),
+				'message' => __( 'Unknown data structure.', 'nth-notify' ),
 			];
 		}
 		
@@ -294,12 +297,13 @@ class Zalo extends Abstract_Notification_Channel {
 		
 		// Debug: log when no structure matches.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'NTH Notifications - Could not extract Chat ID. Last update structure: ' . print_r( $last_update, true ) );
+			error_log( 'NTH Notify - Could not extract Chat ID. Last update structure: ' . print_r( $last_update,
+					true ) );
 		}
 		
 		return [
 			'success' => false,
-			'message' => __( 'Could not find Chat ID in the response data. Please try again.', 'nth-notifications' ),
+			'message' => __( 'Could not find Chat ID in the response data. Please try again.', 'nth-notify' ),
 		];
 	}
 }

@@ -48,10 +48,10 @@ class Admin {
 	 */
 	public function add_menu(): void {
 		add_options_page(
-			__( 'NTH Notifications', 'nth-notifications' ),
-			__( 'NTH Notifications', 'nth-notifications' ),
+			__( 'NTH Notify', 'nth-notify' ),
+			__( 'NTH Notify', 'nth-notify' ),
 			'manage_options',
-			'nth-notifications',
+			'nth-notify',
 			[ $this->settings, 'render_page' ]
 		);
 	}
@@ -63,13 +63,13 @@ class Admin {
 	 */
 	public function enqueue_assets( string $hook ): void {
 		// Only load on our settings page.
-		if ( 'settings_page_nth-notifications' !== $hook ) {
+		if ( 'settings_page_nth-notify' !== $hook ) {
 			return;
 		}
 		
 		// Enqueue CSS.
 		wp_enqueue_style(
-			'nth-notifications-admin',
+			'nth-notify-admin',
 			NTH_NOTIFY_URL . 'assets/css/admin.css',
 			[],
 			NTH_NOTIFY_VERSION
@@ -77,7 +77,7 @@ class Admin {
 		
 		// Enqueue JavaScript.
 		wp_enqueue_script(
-			'nth-notifications-admin',
+			'nth-notify-admin',
 			NTH_NOTIFY_URL . 'assets/js/admin.js',
 			[],
 			NTH_NOTIFY_VERSION,
@@ -86,30 +86,30 @@ class Admin {
 		
 		// Localize script for AJAX and translations.
 		wp_localize_script(
-			'nth-notifications-admin',
+			'nth-notify-admin',
 			'nthNotifications',
 			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'nth_notifications_test' ),
 				'i18n'     => [
-					'show'                => __( 'Show', 'nth-notifications' ),
-					'hide'                => __( 'Hide', 'nth-notifications' ),
-					'test'                => __( 'Test', 'nth-notifications' ),
-					'remove'              => __( 'Remove', 'nth-notifications' ),
-					'testing'             => __( 'Testing...', 'nth-notifications' ),
-					'sendingTestMessage'  => __( 'Sending test message...', 'nth-notifications' ),
-					'pleaseEnterChatId'   => __( 'Please enter Chat ID', 'nth-notifications' ),
-					'pleaseEnterBotToken' => __( 'Please enter Bot Token first', 'nth-notifications' ),
-					'connectionError'     => __( 'Connection error', 'nth-notifications' ),
-					'atLeastOneChatId'    => __( 'At least one Chat ID is required.', 'nth-notifications' ),
-					'waitingForMessage'   => __( '⏳ Waiting for message...', 'nth-notifications' ),
-					'findChatId'          => __( '🔎 Find Chat ID', 'nth-notifications' ),
-					'chatIdFound'         => __( '✅ Chat ID found:', 'nth-notifications' ),
-					'chatIdExists'        => __( 'This ID already exists in your list!', 'nth-notifications' ),
-					'chatIdFoundAndAdded' => __( '✅ Chat ID found and added:', 'nth-notifications' ),
+					'show'                => __( 'Show', 'nth-notify' ),
+					'hide'                => __( 'Hide', 'nth-notify' ),
+					'test'                => __( 'Test', 'nth-notify' ),
+					'remove'              => __( 'Remove', 'nth-notify' ),
+					'testing'             => __( 'Testing...', 'nth-notify' ),
+					'sendingTestMessage'  => __( 'Sending test message...', 'nth-notify' ),
+					'pleaseEnterChatId'   => __( 'Please enter Chat ID', 'nth-notify' ),
+					'pleaseEnterBotToken' => __( 'Please enter Bot Token first', 'nth-notify' ),
+					'connectionError'     => __( 'Connection error', 'nth-notify' ),
+					'atLeastOneChatId'    => __( 'At least one Chat ID is required.', 'nth-notify' ),
+					'waitingForMessage'   => __( '⏳ Waiting for message...', 'nth-notify' ),
+					'findChatId'          => __( '🔎 Find Chat ID', 'nth-notify' ),
+					'chatIdFound'         => __( '✅ Chat ID found:', 'nth-notify' ),
+					'chatIdExists'        => __( 'This ID already exists in your list!', 'nth-notify' ),
+					'chatIdFoundAndAdded' => __( '✅ Chat ID found and added:', 'nth-notify' ),
 					'noMessageFound'      => __( '⚠️ No message found!\n\nPlease:\n1. Open Zalo app on your phone\n2. Search for your bot\n3. Send any message (e.g., "Hello")\n4. Click "Find Chat ID" button again',
-						'nth-notifications' ),
-					'error'               => __( '⚠️ Error:', 'nth-notifications' ),
+						'nth-notify' ),
+					'error'               => __( '⚠️ Error:', 'nth-notify' ),
 				],
 			]
 		);
@@ -124,14 +124,14 @@ class Admin {
 		
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notify' ) ] );
 		}
 		
 		$bot_token = isset( $_POST['bot_token'] ) ? sanitize_text_field( $_POST['bot_token'] ) : '';
 		$chat_id   = isset( $_POST['chat_id'] ) ? sanitize_text_field( $_POST['chat_id'] ) : '';
 		
 		if ( empty( $bot_token ) || empty( $chat_id ) ) {
-			wp_send_json_error( [ 'message' => __( 'Bot token and Chat ID are required.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Bot token and Chat ID are required.', 'nth-notify' ) ] );
 		}
 		
 		// Send test message.
@@ -158,10 +158,10 @@ class Admin {
 		$result = json_decode( $body, true );
 		
 		if ( isset( $result['ok'] ) && $result['ok'] ) {
-			wp_send_json_success( [ 'message' => __( 'Test message sent successfully!', 'nth-notifications' ) ] );
+			wp_send_json_success( [ 'message' => __( 'Test message sent successfully!', 'nth-notify' ) ] );
 		} else {
 			$error_message = isset( $result['description'] ) ? $result['description'] : __( 'Unknown error',
-				'nth-notifications' );
+				'nth-notify' );
 			wp_send_json_error( [ 'message' => $error_message ] );
 		}
 	}
@@ -175,14 +175,14 @@ class Admin {
 		
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notify' ) ] );
 		}
 		
 		$bot_token = isset( $_POST['bot_token'] ) ? sanitize_text_field( $_POST['bot_token'] ) : '';
 		$chat_id   = isset( $_POST['chat_id'] ) ? sanitize_text_field( $_POST['chat_id'] ) : '';
 		
 		if ( empty( $bot_token ) || empty( $chat_id ) ) {
-			wp_send_json_error( [ 'message' => __( 'Bot token and Chat ID are required.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Bot token and Chat ID are required.', 'nth-notify' ) ] );
 		}
 		
 		// Send test message.
@@ -213,10 +213,10 @@ class Admin {
 		$result = json_decode( $body, true );
 		
 		if ( isset( $result['ok'] ) && $result['ok'] ) {
-			wp_send_json_success( [ 'message' => __( 'Test message sent successfully!', 'nth-notifications' ) ] );
+			wp_send_json_success( [ 'message' => __( 'Test message sent successfully!', 'nth-notify' ) ] );
 		} else {
 			$error_message = isset( $result['description'] ) ? $result['description'] : __( 'Unknown error',
-				'nth-notifications' );
+				'nth-notify' );
 			wp_send_json_error( [ 'message' => $error_message ] );
 		}
 	}
@@ -230,13 +230,13 @@ class Admin {
 		
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'nth-notify' ) ] );
 		}
 		
 		$bot_token = isset( $_POST['bot_token'] ) ? sanitize_text_field( $_POST['bot_token'] ) : '';
 		
 		if ( empty( $bot_token ) ) {
-			wp_send_json_error( [ 'message' => __( 'Bot token is required.', 'nth-notifications' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Bot token is required.', 'nth-notify' ) ] );
 		}
 		
 		// Create temporary Zalo instance with provided token.
@@ -256,7 +256,7 @@ class Admin {
 				[
 					'chat_id' => $result['chat_id'],
 					'message' => __( 'Chat ID found successfully! Send a message to the bot on Zalo to get your Chat ID.',
-						'nth-notifications' ),
+						'nth-notify' ),
 				]
 			);
 		} else {
@@ -266,9 +266,9 @@ class Admin {
 	
 	private function build_test_message(): string {
 		$website_url = get_site_url();
-		$message     = __( 'Test message from NTH Notifications', 'nth-notifications' ) . "\n\n";
-		$message     .= __( 'Website: ', 'nth-notifications' ) . "$website_url\n\n";
-		$message     .= "✅ " . __( 'Configuration is working correctly!', 'nth-notifications' ) . "\n";
+		$message     = __( 'Test message from NTH Notify', 'nth-notify' ) . "\n\n";
+		$message     .= __( 'Website: ', 'nth-notify' ) . "$website_url\n\n";
+		$message     .= "✅ " . __( 'Configuration is working correctly!', 'nth-notify' ) . "\n";
 		$message     .= "🕐 " . current_time( 'd/m/Y H:i:s' );
 		
 		return $message;

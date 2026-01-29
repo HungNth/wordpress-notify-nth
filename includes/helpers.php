@@ -23,7 +23,7 @@ function get_general_settings(): array {
 		'zalo_enabled'     => false,
 	];
 	
-	return get_option( 'nth_notifications_settings', $defaults );
+	return get_option( 'nth_notify_settings', $defaults );
 }
 
 /**
@@ -59,7 +59,7 @@ function get_telegram_settings(): array {
 		'chat_ids'  => [],
 	];
 	
-	return get_option( 'nth_notifications_telegram', $defaults );
+	return get_option( 'nth_notify_telegram', $defaults );
 }
 
 /**
@@ -73,5 +73,5 @@ function get_zalo_settings(): array {
 		'chat_ids'  => [],
 	];
 	
-	return get_option( 'nth_notifications_zalo', $defaults );
+	return get_option( 'nth_notify_zalo', $defaults );
 }

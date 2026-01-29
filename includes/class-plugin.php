@@ -87,7 +87,7 @@ class Plugin {
 	 */
 	private function init_hooks(): void {
 		// Register activation hook.
-		register_activation_hook( NTH_NOTIFY_PATH . 'nth-notifications.php', [ $this, 'activate' ] );
+		register_activation_hook( NTH_NOTIFY_PATH . 'nth-notify.php', [ $this, 'activate' ] );
 		
 		// WooCommerce hooks for order notifications.
 		add_action( 'woocommerce_order_status_changed', [ $this, 'handle_order_status_changed' ], 10, 4 );
@@ -98,8 +98,8 @@ class Plugin {
 	 */
 	public function activate(): void {
 		// Set default options for general settings
-		if ( false === get_option( 'nth_notifications_settings' ) ) {
-			update_option( 'nth_notifications_settings', [
+		if ( false === get_option( 'nth_notify_settings' ) ) {
+			update_option( 'nth_notify_settings', [
 				'telegram_enabled' => false,
 				'zalo_enabled'     => false,
 				'enabled_statuses' => [ 'processing', 'completed', 'cancelled', 'failed' ],
@@ -107,16 +107,16 @@ class Plugin {
 		}
 		
 		// Set default options for Telegram
-		if ( false === get_option( 'nth_notifications_telegram' ) ) {
-			update_option( 'nth_notifications_telegram', [
+		if ( false === get_option( 'nth_notify_telegram' ) ) {
+			update_option( 'nth_notify_telegram', [
 				'bot_token' => '',
 				'chat_ids'  => [],
 			], 'no' );
 		}
 		
 		// Set default options for Zalo
-		if ( false === get_option( 'nth_notifications_zalo' ) ) {
-			update_option( 'nth_notifications_zalo', [
+		if ( false === get_option( 'nth_notify_zalo' ) ) {
+			update_option( 'nth_notify_zalo', [
 				'bot_token' => '',
 				'chat_ids'  => [],
 			], 'no' );
@@ -126,20 +126,24 @@ class Plugin {
 	/**
 	 * Handle WooCommerce order status change
 	 *
-	 * @param int    $order_id Order ID.
+	 * @param int    $order_id   Order ID.
 	 * @param string $old_status Old status.
 	 * @param string $new_status New status.
-	 * @param object $order Order object.
 	 */
-	public function handle_order_status_changed( int $order_id, string $old_status, string $new_status, $order ): void {
+	public function handle_order_status_changed( int $order_id, string $old_status, string $new_status ): void {
 		// Get enabled statuses from settings
-		$settings = get_option( 'nth_notifications_settings', [] );
-		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [ 'processing', 'completed', 'cancelled', 'failed' ];
+		$settings         = get_option( 'nth_notify_settings', [] );
+		$enabled_statuses = isset( $settings['enabled_statuses'] ) ? $settings['enabled_statuses'] : [
+			'processing',
+			'completed',
+			'cancelled',
+			'failed'
+		];
 		
 		// Debug logging
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( sprintf(
-				'NTH Notifications - Order status changed: #%d from %s to %s',
+				'NTH Notify - Order status changed: #%d from %s to %s',
 				$order_id,
 				$old_status,
 				$new_status
@@ -150,10 +154,11 @@ class Plugin {
 		if ( ! in_array( $new_status, $enabled_statuses, true ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( sprintf(
-					'NTH Notifications - Status %s is not enabled for notifications',
+					'NTH Notify - Status %s is not enabled for notifications',
 					$new_status
 				) );
 			}
+			
 			return;
 		}
 		

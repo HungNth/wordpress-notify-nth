@@ -101,11 +101,12 @@ abstract class Abstract_Notification_Channel {
 		
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( sprintf(
-				'NTH Notifications - %s is_configured check: enabled=%s, token=%s, chats=%s',
+				'NTH Notify - %s is_configured check: enabled=%s, token=%s, chats=%s (chat_ids: %s)',
 				ucfirst( $this->channel_name ),
 				$is_enabled ? 'YES' : 'NO',
 				$has_token ? 'YES' : 'NO',
-				$has_chats ? 'YES' : 'NO'
+				$has_chats ? 'YES' : 'NO',
+				print_r( $this->chat_ids, true )
 			) );
 		}
 		
@@ -124,8 +125,8 @@ abstract class Abstract_Notification_Channel {
 			return [
 				'success' => false,
 				'message' => sprintf(
-					/* translators: %s: channel name */
-					__( '%s is not properly configured.', 'nth-notifications' ),
+				/* translators: %s: channel name */
+					__( '%s is not properly configured.', 'nth-notify' ),
 					ucfirst( $this->channel_name )
 				),
 			];
@@ -156,7 +157,7 @@ abstract class Abstract_Notification_Channel {
 		// Debug logging.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( sprintf(
-				'NTH Notifications - %s send_new_order_notification called for order: %d',
+				'NTH Notify - %s send_new_order_notification called for order: %d',
 				ucfirst( $this->channel_name ),
 				$order_id
 			) );
@@ -165,10 +166,11 @@ abstract class Abstract_Notification_Channel {
 		if ( ! $this->is_configured() ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( sprintf(
-					'NTH Notifications - %s not configured, exiting',
+					'NTH Notify - %s not configured, exiting',
 					ucfirst( $this->channel_name )
 				) );
 			}
+			
 			return;
 		}
 		
@@ -177,27 +179,31 @@ abstract class Abstract_Notification_Channel {
 		
 		if ( ! $order ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'NTH Notifications - Order not found: ' . $order_id );
+				error_log( 'NTH Notify - Order not found: ' . $order_id );
 			}
+			
 			return;
 		}
 		
 		// Check if notification already sent for this order and status combination.
-		$current_status     = $order->get_status();
+		$current_status       = $order->get_status();
 		$last_notified_status = $order->get_meta( "_nth_{$this->channel_name}_last_status", true );
 		
 		// Allow re-notification for cancelled and failed statuses.
 		$allow_renotify_statuses = [ 'cancelled', 'failed' ];
 		
-		if ( $last_notified_status === $current_status && ! in_array( $current_status, $allow_renotify_statuses, true ) ) {
+		if ( $last_notified_status === $current_status && ! in_array( $current_status,
+				$allow_renotify_statuses,
+				true ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( sprintf(
-					'NTH Notifications - %s notification already sent for order %d with status %s',
+					'NTH Notify - %s notification already sent for order %d with status %s',
 					ucfirst( $this->channel_name ),
 					$order_id,
 					$current_status
 				) );
 			}
+			
 			return;
 		}
 		
@@ -206,7 +212,7 @@ abstract class Abstract_Notification_Channel {
 		
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( sprintf(
-				'NTH Notifications - Sending %s message...',
+				'NTH Notify - Sending %s message...',
 				$this->channel_name
 			) );
 		}
@@ -216,7 +222,7 @@ abstract class Abstract_Notification_Channel {
 		
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( sprintf(
-				'NTH Notifications - %s send result: %s',
+				'NTH Notify - %s send result: %s',
 				ucfirst( $this->channel_name ),
 				print_r( $result, true )
 			) );
@@ -226,8 +232,8 @@ abstract class Abstract_Notification_Channel {
 		if ( $result['success'] ) {
 			$order->add_order_note(
 				sprintf(
-					/* translators: %s: channel name */
-					__( '%s notification sent successfully.', 'nth-notifications' ),
+				/* translators: %s: channel name */
+					__( '%s notification sent successfully.', 'nth-notify' ),
 					ucfirst( $this->channel_name )
 				)
 			);
@@ -236,12 +242,13 @@ abstract class Abstract_Notification_Channel {
 			$order->update_meta_data( "_nth_{$this->channel_name}_last_status", $current_status );
 			$order->save();
 		} else {
-			$error_message = isset( $result['results'][0]['error'] ) ? $result['results'][0]['error'] : __( 'Unknown error', 'nth-notifications' );
+			$error_message = isset( $result['results'][0]['error'] ) ? $result['results'][0]['error'] : __( 'Unknown error',
+				'nth-notify' );
 			
 			$order->add_order_note(
 				sprintf(
-					/* translators: 1: channel name, 2: error message */
-					__( 'Failed to send %1$s notification: %2$s', 'nth-notifications' ),
+				/* translators: 1: channel name, 2: error message */
+					__( 'Failed to send %1$s notification: %2$s', 'nth-notify' ),
 					ucfirst( $this->channel_name ),
 					$error_message
 				)

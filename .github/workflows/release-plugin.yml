@@ -97,6 +97,10 @@ jobs:
                     --exclude='.github' \
                     --exclude='.git' \
                     --exclude='.agent' \
+                    --exclude='.agents' \
+                    --exclude='.claude' \
+                    --exclude='.opencode' \
+                    --exclude='.codex' \
                     --exclude='.gitignore' \
                     --exclude='build' \
                     --exclude='node_modules' \

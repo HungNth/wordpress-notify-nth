@@ -107,7 +107,7 @@ class Admin {
 					'chatIdFound'         => __( '✅ Chat ID found:', 'nth-notify' ),
 					'chatIdExists'        => __( 'This ID already exists in your list!', 'nth-notify' ),
 					'chatIdFoundAndAdded' => __( '✅ Chat ID found and added:', 'nth-notify' ),
-					'noMessageFound'      => __( '⚠️ No message found!\n\nPlease:\n1. Open Zalo app on your phone\n2. Search for your bot\n3. Send any message (e.g., "Hello")\n4. Click "Find Chat ID" button again',
+					'noMessageFound'      => __( '⚠️ No message found! Please: 1. Click "Find Chat ID" button again 2. Open Zalo app on your phone 3. Search for your bot 4. Send any message (e.g., "Hello") to the bot.',
 						'nth-notify' ),
 					'error'               => __( '⚠️ Error:', 'nth-notify' ),
 				],
@@ -255,7 +255,7 @@ class Admin {
 			wp_send_json_success(
 				[
 					'chat_id' => $result['chat_id'],
-					'message' => __( 'Chat ID found successfully! Send a message to the bot on Zalo to get your Chat ID.',
+					'message' => __( 'Chat ID found successfully!.',
 						'nth-notify' ),
 				]
 			);

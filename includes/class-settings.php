@@ -518,11 +518,11 @@ class Settings {
 							<?php esc_html_e( '📱 How to get your Chat ID:', 'nth-notify' ); ?>
 						</p>
 						<ol style="margin: 0; padding-left: 20px;">
+							<li><?php esc_html_e( 'Click the button below to start the process of finding your Chat ID',
+									'nth-notify' ); ?></li>
 							<li><?php esc_html_e( 'Open Zalo app and search for your bot',
 									'nth-notify' ); ?></li>
 							<li><?php esc_html_e( 'Send any message to the bot (e.g., "Hello")',
-									'nth-notify' ); ?></li>
-							<li><?php esc_html_e( 'Click the button below to automatically find your Chat ID',
 									'nth-notify' ); ?></li>
 						</ol>
 						<div style="margin-top: 10px;">

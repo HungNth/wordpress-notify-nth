@@ -7,3 +7,4 @@ dist
 .env
 *.log
 .idea
+chat.json

@@ -421,3 +421,6 @@ GPL v2 or later - See [LICENSE](LICENSE) file
 ---
 
 Made with ❤️ by [Hung Nth](https://wptop.net)
+
+### Credits
+- [Lexombien/zalo-bot-notification](https://github.com/Lexombien/zalo-bot-notification)
